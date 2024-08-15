@@ -507,7 +507,7 @@ const Dashboard = () => {
     try {
       const token = Cookies.get("token");
       const response = await fetch(
-        `http://localhost:5000/api/auth/posts`, {
+        `https://dainty-gecko-212f08.netlify.app/api/auth/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

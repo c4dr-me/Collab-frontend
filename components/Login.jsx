@@ -96,6 +96,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
@@ -105,6 +106,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     sessionStorage.removeItem('toastDisplayed');
     const data = { email, password };
     try {
@@ -112,9 +114,11 @@ const Login = () => {
       Cookies.set('token', response.data.token, { expires: 1, secure: true, sameSite: 'Strict' }); 
       toast.success('Login Successful !!');
       setTimeout(() => {
+        setLoading(false);
         navigate('/dashboard');
       }, 2000);
     } catch (error) {
+      setLoading(false);
       console.error('Error:', error);
       if (error.response && error.response.data && error.response.data.error) {
         toast.error(error.response.data.error);
@@ -169,7 +173,7 @@ const Login = () => {
         </div>
         <div>
           <button className="btn" type="submit" aria-label="login button">
-            Log In
+            {loading ? "Logging in..." : "Log In"} {/* Conditional button text */}
           </button>
         </div>
       </form>

@@ -72,7 +72,7 @@ const Review = ({ user }) => {
       <div className="review-content">
         <div className="userdata" key={user.key}>
           <img
-            src={user.image}
+            src= "/default.png"
             width={86}
             height={86}
             alt=""

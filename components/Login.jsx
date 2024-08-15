@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -96,6 +96,12 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      navigate('/dashboard'); 
+    } 
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -142,6 +148,7 @@ const Login = () => {
               name="email"
               placeholder="Your email"
               autoComplete="email"
+              aria-label="user-email"
               required
             />
           </div>
@@ -155,12 +162,13 @@ const Login = () => {
               name="password"
               placeholder="Create a password"
               autoComplete="current-password"
+              aria-label="password"
               required
             />
           </div>
         </div>
         <div>
-          <button className="btn" type="submit">
+          <button className="btn" type="submit" aria-label="login button">
             Log In
           </button>
         </div>

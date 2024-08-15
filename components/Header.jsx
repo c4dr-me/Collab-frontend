@@ -38,7 +38,7 @@ const Header = () => {
 
 const MainHeader = styled.header`
   border-bottom: 1px solid #e0e0e0;
-  position: fixed;
+  position: sticky;
   width:100%;
   top: 0;
   z-index: 1000;

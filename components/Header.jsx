@@ -38,13 +38,14 @@ const Header = () => {
 
 const MainHeader = styled.header`
   border-bottom: 1px solid #e0e0e0;
-  position: sticky;
+  position: fixed;
+  width:100%;
   top: 0;
   z-index: 1000;
   height: auto;
   padding: 20px;
   background-color: ${({ theme, isScrolled }) =>
-    isScrolled ? "#000" : theme.colors.bg};
+    isScrolled ? 'rgba(0, 0, 0, 0.96)' : theme.colors.bg};
   display: flex;
   justify-content: space-between;
   align-items: center;

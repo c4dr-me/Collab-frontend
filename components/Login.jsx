@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 
 
-const LogIn = styled.div
+const LogIn = styled.div`
   max-width: 800px;
   width: 100%;
   background-color: #0e58ae;
@@ -89,7 +89,7 @@ const CustomToastContainer = styled(ToastContainer).attrs({
   .custom-toast {
     top: 60px !important;
     font-size: 1.25rem;
-  }
+  }`
 ;
 
 const Login = () => {

@@ -13,6 +13,7 @@ const LoadingContainer = styled.div`
 
 
 const LoadingAnimation = ({bgColor}) => {
+  console.log("LoadingAnimation rendered with bgColor:", bgColor);
   return (
     <LoadingContainer bgColor={bgColor} >
 <l-quantum

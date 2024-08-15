@@ -58,7 +58,7 @@ const UserProfile = () => {
       try {
         const response = await fetch(`https://dainty-gecko-212f08.netlify.app/api/auth/user/profile/${token}`);
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok: ' + response.statusText);
         }
         const data = await response.json();
         setUser(data);

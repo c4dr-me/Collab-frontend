@@ -16,11 +16,7 @@ const LoadingAnimation = ({bgColor}) => {
   console.log("LoadingAnimation rendered with bgColor:", bgColor);
   return (
     <LoadingContainer bgColor={bgColor} >
-<l-quantum
-  size="65"
-  speed="1.75"
-  color="white" 
-></l-quantum>
+<div style={{ width: '65px', height: '65px', backgroundColor: 'white' }}></div>
     </LoadingContainer>
   );
 };

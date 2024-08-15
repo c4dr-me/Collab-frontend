@@ -113,7 +113,7 @@ const Login = () => {
     const data = { email, password };
     
     try {
-      const response = await axios.post(`https://collab-backend-ushf.onrender.com/api/auth/login`, data);
+      const response = await axios.post(`${VITE_BACKEND_URL}/api/auth/login`, data);
       Cookies.set('token', response.data.token, { expires: 1, secure: true, sameSite: 'Strict' }); 
       toast.success('Login Successful !!');
       setTimeout(() => {

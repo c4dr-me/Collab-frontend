@@ -1,5 +1,5 @@
 import { ThemeProvider } from "styled-components";
-import { useState, useEffect, Suspense, lazy } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { GlobalStyle } from "./GlobalStyle";
 import Benefit from "./Benefit";
 import Contact from "./Contact";
@@ -21,7 +21,7 @@ import { Element } from 'react-scroll';
 import HireMe from './Posts';
 import UserProfile from './UserProfile';
 import LoadingAnimation from './LoadingAnimation';
-const Error = lazy(() => import('./404'));
+import Error from './404.jsx';
 import ProtectedRoute from '../utils/ProtectedRoute'
 
 function App() {

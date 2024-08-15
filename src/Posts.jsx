@@ -203,7 +203,7 @@ const HireMePosts = () => {
                 <img
                   src={
                     post.user.photo
-                      ? `http://localhost:5000/${post.user.photo}`
+                      ? `https://collab-backend-ushf.onrender.com/${post.user.photo}`
                       : "./default.png"
                   }
                   alt={post.user.name}

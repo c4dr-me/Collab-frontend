@@ -111,7 +111,7 @@ const SignUp = () => {
       telephone,
     };
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/signup`, data);
+      const response = await axios.post(`https://collab-backend-ushf.onrender.com/api/auth/signup`, data);
       console.log(response);
       toast.success('Signup Successful');
       setTimeout(() => {

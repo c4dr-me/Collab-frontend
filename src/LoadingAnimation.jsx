@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import 'ldrs/quantum';
+import { quantum } from 'ldrs';
+quantum.register();
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -16,7 +17,11 @@ const LoadingAnimation = ({bgColor}) => {
   console.log("LoadingAnimation rendered with bgColor:", bgColor);
   return (
     <LoadingContainer bgColor={bgColor} >
-<div style={{ width: '65px', height: '65px', backgroundColor: 'white' }}></div>
+     <l-quantum
+            size="45"
+            speed="1.75"
+            color="black"
+          ></l-quantum>
     </LoadingContainer>
   );
 };

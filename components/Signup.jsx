@@ -4,20 +4,18 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Cookies from "js-cookie";
 
 const SignIn = styled.div`
   max-width: 800px;
   width: 100%;
   background-color: #0e58ae;
   margin: 5rem auto 0 auto;
-  padding: 2rem;
+  max-height: 780px;
   border-radius: 36px;
 
   p {
     padding-top: 1rem;
   }
-
   h2 {
     font-weight: 500;
   }
@@ -38,14 +36,15 @@ const SignIn = styled.div`
     .forms {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
-      width: 100%;
-      gap: 1.5rem;
-
+      width: calc(100% - 25vw);
+      gap: 2rem;
       .column {
         display: flex;
+        gap: 1rem;
         flex-direction: column;
 
         label {
+          flex: 1;
           font-size: 16px;
           color: #fff;
           line-height: 26px;
@@ -53,28 +52,23 @@ const SignIn = styled.div`
         }
 
         input {
-          padding: 0.75rem;
+          flex: 2;
+          padding: 1rem;
           border-radius: 18px;
-          border: 1px solid #cccccc;
+          border: 1px solid ${({ error }) => (error ? "red" : "#cccccc")};
           color: #fff;
-          background-color: transparent;
-          height: 45px;
+          background-color: #ffffff00;
+          height: 50px;
           &:focus {
-            border-color: #0e58ae;
-            outline: none;
+            border-color: ${({ error }) => (error ? "red" : "#0e58ae")};
           }
         }
       }
     }
-
     button[type="submit"] {
       margin-top: 2rem;
       background-color: #fff;
       color: #0e58ae;
-      padding: 0.75rem 2rem;
-      border: none;
-      border-radius: 18px;
-      cursor: pointer;
       &:hover {
         background-color: #0e58ae;
         color: #fff;
@@ -83,18 +77,19 @@ const SignIn = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
-    width: 90%;
-    padding: 1.5rem;
+  @media (max-width: ${({ theme }) => theme.media.mobile}) {
+    width: 90% !important;
+    height: 110vh !important;
   }
 `;
 
 const CustomToastContainer = styled(ToastContainer).attrs({
+  // Custom class to apply styles
   toastClassName: 'custom-toast',
 })`
   .custom-toast {
+    top: 60px !important;
     font-size: 1.25rem;
-    top: 60px !important; 
   }
 `;
 
@@ -104,12 +99,22 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [telephone, setTelephone] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const validateEmail = (email) => {
+    // Regular expression for validating email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+
+    // Validate email format
+    if (!validateEmail(email)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
 
     const data = {
       name,
@@ -120,24 +125,35 @@ const SignUp = () => {
     };
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/signup`, data);
+      const response = await axios.post(`https://collab-backend-ushf.onrender.com/api/auth/signup`, data);
+      console.log(response);
       toast.success('Signup Successful');
       setTimeout(() => {
         navigate('/login');
-      }, 2000);
+      }, 3000);
     } catch (error) {
-      const errorMessage = error.response?.data?.error || 'Signup failed. Please try again.';
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
+      console.error(error);
+      if (error.response && error.response.data && error.response.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error('Signup failed. Please try again.');
+      }
     }
   };
 
   return (
-    <SignIn>
+    <SignIn
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+      }}
+    >
       <CustomToastContainer position="top-center" />
       <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit} aria-label="Signup Form">
+      <form action="" onSubmit={handleSubmit}>
         <div className="forms">
           <div className="column">
             <label htmlFor="name">Name</label>
@@ -148,8 +164,7 @@ const SignUp = () => {
               id="name"
               name="name"
               placeholder="Your name"
-              autoComplete="name"
-              aria-label="Name"
+              autoComplete="email"
               required
             />
           </div>
@@ -163,7 +178,6 @@ const SignUp = () => {
               id="company"
               name="company"
               placeholder="Your company or institution"
-              aria-label="Company"
             />
           </div>
 
@@ -177,13 +191,12 @@ const SignUp = () => {
               name="email"
               placeholder="Your email"
               autoComplete="email"
-              aria-label="Email"
               required
             />
           </div>
 
           <div className="column">
-            <label htmlFor="telephone">Phone</label>
+            <label htmlFor="phone">Phone</label>
             <input
               type="tel"
               value={telephone}
@@ -192,13 +205,10 @@ const SignUp = () => {
               name="telephone"
               placeholder="Your phone"
               autoComplete="tel"
-              aria-label="Phone Number"
               pattern="[0-9]{10}"
               maxLength="10"
-              required
             />
           </div>
-
           <div className="column">
             <label htmlFor="password">Password</label>
             <input
@@ -208,15 +218,13 @@ const SignUp = () => {
               id="password"
               name="password"
               placeholder="Create a password"
-              autoComplete="new-password"
-              aria-label="Password"
-              required
+              autoComplete="current-password"
             />
           </div>
         </div>
         <div>
-          <button className="btn" type="submit" aria-label="Sign Up Button" disabled={isLoading}>
-            {isLoading ? 'Signing Up...' : 'Sign Up'}
+          <button className="btn" type="submit">
+            Sign Up
           </button>
         </div>
       </form>

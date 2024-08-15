@@ -99,7 +99,7 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [telephone, setTelephone] = useState('');
-  const [loading setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const validateEmail = (email) => {

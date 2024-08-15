@@ -1,5 +1,5 @@
 import { ThemeProvider } from "styled-components";
-import { useState, useEffect, Suspense, Lazy } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { GlobalStyle } from "./GlobalStyle";
 import Benefit from "./Benefit";
 import Contact from "./Contact";

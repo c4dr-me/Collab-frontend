@@ -1,5 +1,5 @@
 import { ThemeProvider } from "styled-components";
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, Lazy } from "react";
 import { GlobalStyle } from "./GlobalStyle";
 import Benefit from "./Benefit";
 import Contact from "./Contact";
@@ -21,7 +21,7 @@ import { Element } from 'react-scroll';
 import HireMe from './Posts';
 import UserProfile from './UserProfile';
 import LoadingAnimation from './LoadingAnimation';
-import Error from './404';
+const Error = lazy(() => import('./404'));
 import ProtectedRoute from '../utils/ProtectedRoute'
 
 function App() {
@@ -92,7 +92,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <Suspense fallback={LoadingAnimation}>
+      <Suspense fallback={<LoadingAnimation />}>
       <Header />
       <Routes>
       <Route path="*" element={

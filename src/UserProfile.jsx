@@ -56,7 +56,7 @@ const UserProfile = () => {
 
     const fetchUser = async () => {
       try {
-        const response = await fetch(`https://dainty-gecko-212f08.netlify.app/api/auth/user/profile/${token}`);
+        const response = await fetch(`https://collab-backend-ushf.onrender.com/api/auth/user/profile/${token}`);
         if (!response.ok) {
           throw new Error('Network response was not ok: ' + response.statusText);
         }
@@ -97,7 +97,7 @@ const UserProfile = () => {
   return (
     <UserProfileContainer>
       <img
-       src={user.photo ? `https://dainty-gecko-212f08.netlify.app/${user.photo}` : "/default.png"}
+       src={user.photo ? `https://collab-backend-ushf.onrender.com/${user.photo}` : "/default.png"}
         alt={user.name}
         className="user-photo"
       />

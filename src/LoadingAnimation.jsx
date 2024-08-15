@@ -20,7 +20,7 @@ const LoadingAnimation = ({bgColor}) => {
      <l-quantum
             size="45"
             speed="1.75"
-            color="black"
+            color="white"
           ></l-quantum>
     </LoadingContainer>
   );

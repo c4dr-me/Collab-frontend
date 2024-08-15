@@ -21,7 +21,7 @@ import { Element } from 'react-scroll';
 import HireMe from './Posts';
 import UserProfile from './UserProfile';
 import LoadingAnimation from './LoadingAnimation';
-import Error from './404.jsx';
+import Error from './404';
 import ProtectedRoute from '../utils/ProtectedRoute'
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 5000); 
+    }, 4000); 
 
     return () => clearTimeout(timer);
   }, []);
@@ -92,7 +92,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <Suspense fallback={<LoadingAnimation />}>
+      <Suspense fallback={<LoadingAnimation/>}>
       <Header />
       <Routes>
       <Route path="*" element={

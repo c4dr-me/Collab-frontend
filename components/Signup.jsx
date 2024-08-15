@@ -4,22 +4,23 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
+import Cookies from "js-cookie";
 
 const SignIn = styled.div`
   max-width: 800px;
   width: 100%;
   background-color: #0e58ae;
   margin: 5rem auto 0 auto;
-  max-height: 780px;
+  padding: 2rem;
   border-radius: 36px;
 
   p {
     padding-top: 1rem;
   }
-    h2{
+
+  h2 {
     font-weight: 500;
-    }
+  }
 
   a {
     opacity: 0.8;
@@ -37,15 +38,14 @@ const SignIn = styled.div`
     .forms {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
-      width: calc(100% - 25vw);
-      gap: 2rem;
+      width: 100%;
+      gap: 1.5rem;
+
       .column {
         display: flex;
-        gap: 1rem;
         flex-direction: column;
 
         label {
-          flex: 1;
           font-size: 16px;
           color: #fff;
           line-height: 26px;
@@ -53,23 +53,28 @@ const SignIn = styled.div`
         }
 
         input {
-          flex: 2;
-          padding: 1rem;
+          padding: 0.75rem;
           border-radius: 18px;
-          border: 1px solid ${({ error }) => (error ? "red" : "#cccccc")};
+          border: 1px solid #cccccc;
           color: #fff;
-          background-color: #ffffff00;
-          height: 50px;
+          background-color: transparent;
+          height: 45px;
           &:focus {
-            border-color: ${({ error }) => (error ? "red" : "#0e58ae")};
+            border-color: #0e58ae;
+            outline: none;
           }
         }
       }
     }
+
     button[type="submit"] {
       margin-top: 2rem;
       background-color: #fff;
       color: #0e58ae;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 18px;
+      cursor: pointer;
       &:hover {
         background-color: #0e58ae;
         color: #fff;
@@ -77,19 +82,19 @@ const SignIn = styled.div`
       }
     }
   }
-    @media (max-width: ${({ theme }) => theme.media.mobile}){
-    width: 90% !important;
-    height: 110vh !important;
-    }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 1.5rem;
+  }
 `;
 
 const CustomToastContainer = styled(ToastContainer).attrs({
-  // Custom class to apply styles
   toastClassName: 'custom-toast',
 })`
   .custom-toast {
-    top: 60px !important; 
     font-size: 1.25rem;
+    top: 60px !important; 
   }
 `;
 
@@ -99,10 +104,13 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [telephone, setTelephone] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     const data = {
       name,
       email,
@@ -110,36 +118,26 @@ const SignUp = () => {
       company,
       telephone,
     };
+
     try {
-      const response = await axios.post(`https://collab-backend-ushf.onrender.com/api/auth/signup`, data);
-      console.log(response);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/signup`, data);
       toast.success('Signup Successful');
       setTimeout(() => {
         navigate('/login');
-      }, 3000);
+      }, 2000);
     } catch (error) {
-      console.error(error);
-      if (error.response && error.response.data && error.response.data.error) {
-        toast.error(error.response.data.error);
-      } else {
-        toast.error('Signin failed. Please try again.');
-      }
+      const errorMessage = error.response?.data?.error || 'Signup failed. Please try again.';
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <SignIn
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-      }}
-    >
+    <SignIn>
       <CustomToastContainer position="top-center" />
       <h2>Sign Up</h2>
-      <form action="" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} aria-label="Signup Form">
         <div className="forms">
           <div className="column">
             <label htmlFor="name">Name</label>
@@ -150,7 +148,8 @@ const SignUp = () => {
               id="name"
               name="name"
               placeholder="Your name"
-              autoComplete='email'
+              autoComplete="name"
+              aria-label="Name"
               required
             />
           </div>
@@ -163,7 +162,8 @@ const SignUp = () => {
               onChange={(e) => setCompany(e.target.value)}
               id="company"
               name="company"
-              placeholder="Your company or institituion"
+              placeholder="Your company or institution"
+              aria-label="Company"
             />
           </div>
 
@@ -176,13 +176,14 @@ const SignUp = () => {
               id="email"
               name="email"
               placeholder="Your email"
-              autoComplete='email'
+              autoComplete="email"
+              aria-label="Email"
               required
             />
           </div>
 
           <div className="column">
-            <label htmlFor="phone">Phone</label>
+            <label htmlFor="telephone">Phone</label>
             <input
               type="tel"
               value={telephone}
@@ -190,11 +191,14 @@ const SignUp = () => {
               id="telephone"
               name="telephone"
               placeholder="Your phone"
-              autoComplete='tel'
+              autoComplete="tel"
+              aria-label="Phone Number"
               pattern="[0-9]{10}"
               maxLength="10"
+              required
             />
           </div>
+
           <div className="column">
             <label htmlFor="password">Password</label>
             <input
@@ -204,13 +208,15 @@ const SignUp = () => {
               id="password"
               name="password"
               placeholder="Create a password"
-              autoComplete='current-password'
+              autoComplete="new-password"
+              aria-label="Password"
+              required
             />
           </div>
         </div>
         <div>
-          <button className="btn" type="submit">
-            Sign Up
+          <button className="btn" type="submit" aria-label="Sign Up Button" disabled={isLoading}>
+            {isLoading ? 'Signing Up...' : 'Sign Up'}
           </button>
         </div>
       </form>

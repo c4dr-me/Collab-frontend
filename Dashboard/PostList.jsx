@@ -21,6 +21,12 @@ const StyledPostList = styled.div`
     margin: 5rem 0;
   }
 
+  .none{
+  margin: auto;
+  font-size: 2rem;
+  color: #e8e8e4;
+  }
+
   h2 {
     margin-bottom: 10px;
     text-align: center;
@@ -91,7 +97,7 @@ const PostList = ({ user, posts = [], handlePostEdit, handlePostDeletion }) => {
       <h2 className="post-header">Posts</h2>
       <div className="post-section">
         {!posts || posts.length === 0 ? (
-          <p>You haven't made any post yet</p>
+          <p className="none">You haven't made any post yet</p>
         ) : (
           posts.map((post) => (
             <PostItem

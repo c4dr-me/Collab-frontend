@@ -99,6 +99,7 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [telephone, setTelephone] = useState('');
+  const [loading setLoading] = useState(false);
   const navigate = useNavigate();
 
   const validateEmail = (email) => {
@@ -115,7 +116,7 @@ const SignUp = () => {
       toast.error('Please enter a valid email address.');
       return;
     }
-
+    setLoading(true);
     const data = {
       name,
       email,
@@ -129,9 +130,11 @@ const SignUp = () => {
       console.log(response);
       toast.success('Signup Successful');
       setTimeout(() => {
+        setLoading(false);
         navigate('/login');
       }, 3000);
     } catch (error) {
+      setLoading(false);
       console.error(error);
       if (error.response && error.response.data && error.response.data.error) {
         toast.error(error.response.data.error);
@@ -224,7 +227,7 @@ const SignUp = () => {
         </div>
         <div>
           <button className="btn" type="submit">
-            Sign Up
+            {loading ? "Signing in..." : "Sign Up"} {/* Conditional button text */}
           </button>
         </div>
       </form>

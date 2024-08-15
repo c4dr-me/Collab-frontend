@@ -81,16 +81,16 @@ const LogIn = styled.div`
    @media (max-width: ${({ theme }) => theme.media.mobile}){
     width: 90% !important;
     }
-;
+`;
 
 const CustomToastContainer = styled(ToastContainer).attrs({
   toastClassName: 'custom-toast',
-})
+})`
   .custom-toast {
     top: 60px !important;
     font-size: 1.25rem;
-  }`
-;
+  }
+`;
 
 const Login = () => {
   const [email, setEmail] = useState('');

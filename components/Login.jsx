@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,14 +6,14 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 
+
 const LogIn = styled.div`
   max-width: 800px;
   width: 100%;
   background-color: #0e58ae;
-  margin: 7rem auto;
+  margin: 7rem auto 7rem auto;
   max-height: 500px;
   border-radius: 36px;
-
   h2 {
     font-weight: 500;
   }
@@ -40,7 +40,6 @@ const LogIn = styled.div`
       grid-template-columns: repeat(1, 1fr);
       width: calc(100% - 25vw);
       gap: 2rem;
-
       .column {
         display: flex;
         gap: 1rem;
@@ -68,7 +67,6 @@ const LogIn = styled.div`
         }
       }
     }
-
     button[type="submit"] {
       margin-top: 2rem;
       background-color: #fff;
@@ -80,10 +78,9 @@ const LogIn = styled.div`
       }
     }
   }
-
-  @media (max-width: ${({ theme }) => theme.media.mobile}) {
+   @media (max-width: ${({ theme }) => theme.media.mobile}){
     width: 90% !important;
-  }
+    }
 `;
 
 const CustomToastContainer = styled(ToastContainer).attrs({
@@ -98,35 +95,26 @@ const CustomToastContainer = styled(ToastContainer).attrs({
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (Cookies.get('token')) {
-      navigate('/dashboard');
-    }
-  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    sessionStorage.removeItem('toastDisplayed');
     const data = { email, password };
-    
     try {
-      const response = await axios.post(`${VITE_BACKEND_URL}/api/auth/login`, data);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, data);
       Cookies.set('token', response.data.token, { expires: 1, secure: true, sameSite: 'Strict' }); 
       toast.success('Login Successful !!');
       setTimeout(() => {
         navigate('/dashboard');
       }, 2000);
     } catch (error) {
+      console.error('Error:', error);
       if (error.response && error.response.data && error.response.data.error) {
         toast.error(error.response.data.error);
       } else {
-        toast.error('Login failed. Please try again with the correct credentials.');
+        toast.error('Login failed. Please try again with right credentials.');
       }
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -142,7 +130,7 @@ const Login = () => {
     >
       <CustomToastContainer position="top-center" />
       <h2>Log In</h2>
-      <form onSubmit={handleSubmit}>
+      <form action="" onSubmit={handleSubmit}>
         <div className="forms">
           <div className="column">
             <label htmlFor="email">Email</label>
@@ -154,7 +142,6 @@ const Login = () => {
               name="email"
               placeholder="Your email"
               autoComplete="email"
-              aria-label="User email"
               required
             />
           </div>
@@ -166,16 +153,15 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               id="password"
               name="password"
-              placeholder="Your password"
+              placeholder="Create a password"
               autoComplete="current-password"
-              aria-label="Password"
               required
             />
           </div>
         </div>
         <div>
-          <button className="btn" type="submit" aria-label="Login button" disabled={isLoading}>
-            {isLoading ? 'Logging in...' : 'Log In'}
+          <button className="btn" type="submit">
+            Log In
           </button>
         </div>
       </form>

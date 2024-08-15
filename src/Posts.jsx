@@ -140,7 +140,7 @@ const HireMePosts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/auth/posts"); // Updated endpoint
+        const response = await fetch:500("https://collab-backend-ushf.onrender.com/api/auth/posts"); // Updated endpoint
         const data = await response.json();
         setPosts(data);
         console.log(data);

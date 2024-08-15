@@ -56,7 +56,7 @@ const UserProfile = () => {
 
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/auth/user/profile/${token}`);
+        const response = await fetch(`https://dainty-gecko-212f08.netlify.app/api/auth/user/profile/${token}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -97,7 +97,7 @@ const UserProfile = () => {
   return (
     <UserProfileContainer>
       <img
-       src={user.photo ? `http://localhost:5000/${user.photo}` : "/default.png"}
+       src={user.photo ? `https://dainty-gecko-212f08.netlify.app/${user.photo}` : "/default.png"}
         alt={user.name}
         className="user-photo"
       />

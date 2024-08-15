@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const SignIn = styled.div
+const SignIn = styled.div`
   max-width: 800px;
   width: 100%;
   background-color: #0e58ae;
@@ -81,17 +81,17 @@ const SignIn = styled.div
     width: 90% !important;
     height: 110vh !important;
     }
-;
+`;
 
 const CustomToastContainer = styled(ToastContainer).attrs({
   // Custom class to apply styles
   toastClassName: 'custom-toast',
-})
+})`
   .custom-toast {
     top: 60px !important; 
     font-size: 1.25rem;
   }
-;
+`;
 
 const SignUp = () => {
   const [email, setEmail] = useState('');

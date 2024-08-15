@@ -502,7 +502,7 @@ const Dashboard = () => {
     try {
       const token = Cookies.get("token");
       const response = await fetch(
-        `${VITE_BACKEND_URL}/api/auth/posts`, {
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

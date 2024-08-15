@@ -306,7 +306,6 @@ const Dashboard = () => {
         if (!token) {
           throw new Error("No token found");
         }
-        console.log("user token:", user);
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/auth/notifications/${user.token}`,
           {
@@ -326,8 +325,8 @@ const Dashboard = () => {
         setNotifications(notifications);
         const unread = notifications.some((notification) => !notification.read);
         setHasUnreadNotifications(unread);
-        console.log("Unread notifications:", unread);
-        console.log("Toast displayed previously:", sessionStorage.getItem("toastDisplayed"));
+        //console.log("Unread notifications:", unread);
+        // console.log("Toast displayed previously:", sessionStorage.getItem("toastDisplayed"));
         if (unread && !sessionStorage.getItem("toastDisplayed")) {
           toast.info("You have unread notifications!");
           sessionStorage.setItem("toastDisplayed", "true");
@@ -405,7 +404,7 @@ const Dashboard = () => {
         }
 
         const userInfo = await response.json();
-        console.log("User Info:", userInfo);
+        
         setUser(userInfo);
       } catch (error) {
         console.error("Error fetching user info:", error);
@@ -467,10 +466,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    console.log("User state updated:", user);
-  }, [user]);
-
-  useEffect(() => {
     const fetchUserPosts = async () => {
       try {
         const token = Cookies.get("token");
@@ -507,7 +502,7 @@ const Dashboard = () => {
     try {
       const token = Cookies.get("token");
       const response = await fetch(
-        `https://dainty-gecko-212f08.netlify.app/api/auth/posts`, {
+        `${VITE_BACKEND_URL}/api/auth/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -521,7 +516,6 @@ const Dashboard = () => {
       }
 
       const createdPost = await response.json();
-      console.log(createdPost);
 
       setUser((prevUser) => ({
         ...prevUser,
@@ -558,7 +552,7 @@ const Dashboard = () => {
         "Saving post with URL:",
         '${import.meta.env.VITE_BACKEND_URL}/api/auth/posts/${postIdString}'
       );
-      console.log("postId:", postId); // Log to check the value
+
 
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/auth/posts/${postIdString}`,
@@ -583,7 +577,7 @@ const Dashboard = () => {
           post._id === postIdString ? updatedPostData : post
         ),
       }));
-      console.log("updatedPost:", updatedPostData); // Log to check the value
+
       console.log("Post updated successfully");
     } catch (error) {
       console.error("Error updating post:", error);
@@ -694,7 +688,7 @@ const Dashboard = () => {
 
       const result = await response.json();
       setUser(result);
-      console.log("Photo uploaded successfully:", result);
+
       setShowPhotoForm(false);
     } catch (error) {
       console.error("Error uploading photo:", error);
